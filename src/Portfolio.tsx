@@ -18,6 +18,7 @@ import { useState } from "react";
 ──────────────────────────────────────────────────────────────── */
 
 const css = `
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500&display=swap');
   @font-face {
     font-family: 'Neulis Alt';
     src: url('/fonts/NeulisAlt-Regular.otf') format('opentype');
@@ -60,10 +61,9 @@ const css = `
     font-weight: 400;
     font-style: italic;
   }
-
   :root {
     --font-display: 'Neulis', serif;
-    --font-body:    'Neulis Alt', sans-serif;
+    --font-body:    'DM Sans', sans-serif;
 
     --c-bg:       #f9faef;
     --c-surface:  #FEFACD;
@@ -86,12 +86,14 @@ const css = `
 
   body {
     background: var(--c-bg);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
     color: var(--c-text);
     font-family: var(--font-body);
     font-size: 16px;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
-    box-shadow: inset 24px 0 40px -20px rgba(44, 82, 130, 0.08), inset -24px 0 40px -20px rgba(44, 82, 130, 0.08);
   }
 
   a { color: inherit; text-decoration: none; }
@@ -101,7 +103,7 @@ const css = `
     display: grid;
     grid-template-columns: var(--sidebar-w) 1fr;
     min-height: 100vh;
-    max-width: 980px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0 24px;
     gap: 48px;
@@ -150,6 +152,9 @@ const css = `
     font-weight: 500;
     color: var(--c-text);
     margin-bottom: 4px;
+    text-decoration: underline wavy var(--c-blue);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 5px;
   }
 
   .sidebar-role {
@@ -329,32 +334,43 @@ const css = `
   }
 
   /* ── EXPERIENCE CARD ── */
-  .exp-card {
-    background: var(--c-surface);
-    border: none;
-    border-left: 3px solid var(--c-blue);
-    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-    padding: 16px 18px;
-  }
+ .exp-card {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 0 20px;
+  text-align: left;        /* everything flush left */
+}
 
-  .exp-company {
-    font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 2px;
-  }
+/* the dateline — sits in the left column */
+.exp-date {
+  font-size: 11px;
+  color: var(--c-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding-top: 3px;
+  line-height: 1.4;
+  text-align: right;               /* flush right toward the content */
+}
 
-  .exp-meta {
-    font-size: 11px;
-    color: var(--c-muted);
-    margin-bottom: 8px;
-    letter-spacing: 0.02em;
-  }
+.exp-company {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 500;
+  font-style: italic;
+  margin-bottom: 3px;
+}
 
-  .exp-desc {
-    font-size: 12px;
-    color: var(--c-muted);
-    line-height: 1.65;
-  }
+.exp-meta {
+  font-size: 12px;
+  color: var(--c-muted);
+  margin-bottom: 8px;
+}
+
+.exp-desc {
+  font-size: 14px;
+  color: var(--c-text);
+  line-height: 1.75;
+}
 
   /* ── CASE STUDY PAGE ── */
   .cs-back {
@@ -537,10 +553,10 @@ const PROJECTS = [
   {
     id: "technovation",
     title: "Technovation Society Website",
-    sub: "End-to-end UX leadership — design system, branding, 9 designers",
+    sub: "End-to-end UI/UX leadership",
     image: "/projects/technovation.png",
-    tags: ["UX", "Design Systems", "Leadership"],
-    eyebrow: "UX · Design Systems",
+    tags: ["UI/UX", "Design Systems", "Leadership"],
+    eyebrow: "UI/UX · Design Systems",
     meta: [
       { label: "Role", value: "UI/UX Director" },
       { label: "Team", value: "9 designers + dev team" },
@@ -580,8 +596,9 @@ const PROJECTS = [
   },
   {
     id: "airquality",
-    title: "Air Quality Forecasting",
-    sub: "Undergraduate thesis — hybrid deep learning model (team of 4)",
+    title:
+      "Image-Based Air Quality Forecasting Utilizing an Efficient-CapsNet-LSTM-LightGBM Hybrid Model: Exploiting Temporal and Spatial Features from High-Resolution Images and Environmental Data",
+    sub: "Undergraduate thesis — hybrid deep learning model",
     image: "/projects/airquality.png",
     tags: ["ML", "Data Science", "Research"],
     eyebrow: "ML · Data Science",
@@ -597,7 +614,7 @@ const PROJECTS = [
     sections: [
       {
         heading: "Situation",
-        text: "The research question was whether a hybrid model combining spatial features from images and temporal environmental data could produce reliable, real-world-useful forecasts. Our team — Andrea Arceo, Shalene Marie Bacolod, Shea Mariz Gallardo, and myself — approached it from complementary angles: data preparation, model architecture exploration, validation strategy, and deployment considerations.",
+        text: "The research question was whether a hybrid model combining spatial features from images and temporal environmental data could produce reliable, real-world-useful forecasts. Our team approached it from complementary angles: data preparation, model architecture exploration, validation strategy, and deployment considerations.",
       },
       {
         heading: "Thinking",
@@ -629,14 +646,14 @@ const PROJECTS = [
   },
   {
     id: "sentiment",
-    title: "Sentiment Analysis at Scale",
-    sub: "Fine-tuned DistilBERT on IMDb reviews (team of 7)",
+    title: "DistilBERT for Movie Sentiment Classification",
+    sub: "A Lightweight Fine-Tuning Approach on Internet Movie Database (IMDb) reviews",
     image: "/projects/sentiment.png",
     tags: ["ML", "NLP", "Python"],
     eyebrow: "ML · NLP",
     meta: [
-      { label: "Role", value: "ML Engineer & Data Scientist" },
-      { label: "Team", value: "7 researchers (UST College of IT)" },
+      { label: "Role", value: "ML Engineer, Data Scientist, Researcher" },
+      { label: "Team", value: "7 researchers" },
       { label: "Type", value: "Final Project" },
       { label: "Year", value: "May 2025" },
       { label: "Dataset", value: "50k IMDb reviews" },
@@ -644,7 +661,7 @@ const PROJECTS = [
       { label: "Accuracy", value: "~87% test" },
     ],
     intro:
-      "Sentiment analysis sounds simple: is this review positive or negative? But in any real-world application, the text is messy, ironic, mixed, and context-dependent. Working alongside six teammates — Shea Gallardo, Shalene Bacolod, Andrea Arceo, Christian Buenagua, Jamia Navarro, and Althea Taguibao — we built something that engaged with that reality directly. Our challenge: fine-tune DistilBERT to handle the nuance and noise inherent in movie reviews.",
+      "Sentiment analysis sounds simple: is this review positive or negative? But in any real-world application, the text is messy, ironic, mixed, and context-dependent. Working alongside six teammates, we built something that engaged with that reality directly. Our challenge: fine-tune DistilBERT to handle the nuance and noise inherent in movie reviews.",
     sections: [
       {
         heading: "Situation",
@@ -682,8 +699,8 @@ const PROJECTS = [
   },
   {
     id: "kho",
-    title: "Kho Veterinary Clinic System",
-    sub: "Full-stack clinic management — team of 6",
+    title: "Kho Veterinary Clinic Record Management System",
+    sub: "Full-stack clinic management system",
     image: "/projects/kho.png",
     tags: ["Full-stack", "PM", "React"],
     eyebrow: "Full-Stack · Project Management",
@@ -768,11 +785,12 @@ function Sidebar() {
         <img src="/profile.jpg" alt="Micah Mallari" />
       </div>
       <p className="sidebar-name">Micah Mallari</p>
-      <p className="sidebar-role">Data Science · UI/UX</p>
+      <p className="sidebar-role">Data Science ★ UI/UX</p>
       <p className="sidebar-tagline">
-        Building with data.
+        I build things that work, and things that look like they work.
         <br />
-        Designing with intent.
+        From University of Santo Tomas with a degree in Computer Science and a
+        habit of making data make sense and interfaces feel human.
       </p>
 
       <div className="sidebar-links">
@@ -808,7 +826,7 @@ function HomePage({
   return (
     <main className="main">
       <section className="section">
-        <p className="section-label">Work</p>
+        <p className="section-label">things I've made</p>
         <div className="work-list">
           {PROJECTS.map((p) => (
             <button
@@ -844,18 +862,25 @@ function HomePage({
       </section>
 
       <section className="section">
-        <p className="section-label">Experience</p>
+        <p className="section-label">where I've been</p>
         <div className="exp-card">
-          <p className="exp-company">Amdocs</p>
-          <p className="exp-meta">
-            Software Engineer Intern · Jan 2026 – Apr 2026 · Taguig, Philippines
+          <p className="exp-date">
+            Jan–Apr
+            <br />
+            2026
           </p>
-          <p className="exp-desc">
-            Built end-to-end Python automation pipelines for IAMOps — user
-            creation, deactivation, reactivation, and queue modification —
-            across four production workflows. Worked directly on live systems
-            used by the operations team from day one.
-          </p>
+          <div>
+            <p className="exp-company">Amdocs</p>
+            <p className="exp-meta">
+              Software Engineer Intern · Taguig, Philippines
+            </p>
+            <p className="exp-desc">
+              Built end-to-end Python automation pipelines for IAMOps — user
+              creation, deactivation, reactivation, and queue modification —
+              across four production workflows. Worked directly on live systems
+              used by the operations team from day one.
+            </p>
+          </div>
         </div>
       </section>
     </main>
