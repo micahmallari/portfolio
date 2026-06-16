@@ -808,7 +808,7 @@ function Sidebar() {
       <p className="sidebar-role">Data Science ★ UI/UX</p>
       <div className="sidebar-tagline">
         <p className="sidebar-tagline-heading">
-          This is my space— to show what I do and what I've been building.
+          This is my space— to share what I do and what I've been building.
         </p>
         <p className="sidebar-tagline-sub">
           From the University of Santo Tomas with a degree in Computer Science
