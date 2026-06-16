@@ -1,21 +1,4 @@
-import { useState } from "react";
-
-/* ─── DESIGN TOKENS ──────────────────────────────────────────────
-   Palette:
-     cream-light  #FBFCEE   page background
-     cream-mid    #FEFACD   sidebar / card surface
-     cream-warm   #F7EBAF   accent / hover
-     blue         #3A7DC1   links, tags, highlights
-
-   Typography:
-     Display      Neulis Alt  (swap @font-face below when self-hosting)
-     Body         Neulis
-
-   NOTE: Neulis is a paid font. The @import below points to a Google
-   Fonts fallback (DM Sans + DM Serif Display). Replace the two
-   @import lines and the font-family declarations once you have
-   your Neulis files.
-──────────────────────────────────────────────────────────────── */
+import { useState, useEffect } from "react";
 
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500&display=swap');
@@ -64,7 +47,6 @@ const css = `
   :root {
     --font-display: 'Neulis', serif;
     --font-body:    'DM Sans', sans-serif;
-
     --c-bg:       #f9faef;
     --c-surface:  #FEFACD;
     --c-accent:   #F7EBAF;
@@ -74,16 +56,13 @@ const css = `
     --c-muted:    #6b6b60;
     --c-border:   rgba(44,82,130,0.18);
     --c-divider:  rgba(26,26,24,0.10);
-
     --radius-sm:  6px;
     --radius-md:  10px;
     --radius-lg:  14px;
     --sidebar-w:  320px;
     --transition: 180ms ease;
   }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     background: var(--c-bg);
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
@@ -94,10 +73,15 @@ const css = `
     font-size: 16px;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+    cursor: none;
   }
-
   a { color: inherit; text-decoration: none; }
-
+  /* ── CURSOR ── */
+  * { cursor: none !important; }
+  @keyframes starFade {
+    0%   { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2) rotate(45deg); }
+  }
   /* ── LAYOUT ── */
   .layout {
     display: grid;
@@ -108,7 +92,6 @@ const css = `
     padding: 0 24px;
     gap: 48px;
   }
-
   /* ── SIDEBAR ── */
   .sidebar {
     position: sticky;
@@ -121,7 +104,6 @@ const css = `
     text-align: left;
     gap: 0;
   }
-
   .sidebar-photo {
     width: 140px;
     height: 140px;
@@ -139,24 +121,20 @@ const css = `
     flex-shrink: 0;
     overflow: hidden;
   }
-
   .sidebar-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-
   .sidebar-name {
     font-family: var(--font-display);
     font-size: 24px;
     font-weight: 500;
     color: var(--c-text);
     margin-bottom: 4px;
-
-  text-decoration-thickness: 1.5px;
-  text-underline-offset: 5px;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 5px;
   }
-
   .sidebar-role {
     font-size: 13px;
     letter-spacing: 0.07em;
@@ -166,21 +144,18 @@ const css = `
     font-family: var(--font-body);
     font-weight: 500;
   }
-
   .sidebar-tagline {
     margin-bottom: 36px;
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
-
   .sidebar-tagline-heading {
     font-size: 17px;
     font-weight: 500;
     color: var(--c-text);
     line-height: 1.4;
   }
-
   .sidebar-tagline-sub {
     font-size: 14px;
     color: var(--c-muted);
@@ -188,7 +163,6 @@ const css = `
     font-style: italic;
     letter-spacing: 0.01em;
   }
-
   .sidebar-links {
     display: flex;
     flex-direction: column;
@@ -197,19 +171,16 @@ const css = `
     width: 100%;
     text-align: left;
   }
-
   .sidebar-link {
     font-size: 14px;
     color: var(--c-muted);
     display: flex;
     align-items: center;
     gap: 8px;
-    cursor: pointer;
+    cursor: none;
     transition: color var(--transition);
   }
-
   .sidebar-link:hover { color: var(--c-blue); }
-
   .sidebar-link svg {
     width: 14px;
     height: 14px;
@@ -220,12 +191,10 @@ const css = `
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-
   /* ── MAIN ── */
   .main {
     padding: 48px 0 80px;
   }
-
   .section-label {
     font-size: 10px;
     letter-spacing: 0.12em;
@@ -235,22 +204,19 @@ const css = `
     font-family: var(--font-body);
     font-weight: 500;
   }
-
   .section + .section { margin-top: 44px; }
-
   /* ── WORK CARDS ── */
   .work-list {
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
-
   .work-card {
     background: transparent;
     border: none;
     border-radius: var(--radius-md);
     padding: 14px 16px;
-    cursor: pointer;
+    cursor: none;
     text-align: left;
     transition: background var(--transition);
     display: flex;
@@ -259,42 +225,9 @@ const css = `
     gap: 16px;
     width: 100%;
   }
-
-  .work-card-image {
-    width: 120px;
-    height: 120px;
-    border-radius: var(--radius-md);
-    background: var(--c-surface);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    color: var(--c-muted);
-    overflow: hidden;
-  }
-
-  .work-card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .work-card-image-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--c-blue-dim);
-    color: var(--c-muted);
-    font-size: 11px;
-  }
-
   .work-card:hover {
     background: var(--c-surface);
   }
-
   .work-card-title {
     font-size: 16px;
     font-weight: 500;
@@ -302,7 +235,6 @@ const css = `
     margin-bottom: 3px;
     font-family: var(--font-body);
   }
-
   .work-card-sub {
     font-size: 14px;
     color: var(--c-muted);
@@ -310,13 +242,11 @@ const css = `
     line-height: 1.5;
     font-family: var(--font-body);
   }
-
   .tags {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
   }
-
   .tag {
     font-size: 10px;
     letter-spacing: 0.04em;
@@ -327,13 +257,13 @@ const css = `
     font-weight: 500;
     font-family: var(--font-body);
   }
-
   .work-card-arrow {
     width: 16px;
     height: 16px;
     flex-shrink: 0;
     color: var(--c-muted);
-    margin-top: 2px;
+    margin-left: auto;
+    align-self: center;
     stroke: currentColor;
     fill: none;
     stroke-width: 1.8;
@@ -341,51 +271,43 @@ const css = `
     stroke-linejoin: round;
     transition: transform var(--transition), color var(--transition);
   }
-
   .work-card:hover .work-card-arrow {
     transform: translateX(3px);
     color: var(--c-blue);
   }
-
   /* ── EXPERIENCE CARD ── */
- .exp-card {
-  display: grid;
-  grid-template-columns: 72px 1fr;
-  gap: 0 20px;
-  text-align: left;        /* everything flush left */
-}
-
-/* the dateline — sits in the left column */
-.exp-date {
-  font-size: 11px;
-  color: var(--c-muted);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding-top: 3px;
-  line-height: 1.4;
-  text-align: right;               /* flush right toward the content */
-}
-
-.exp-company {
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 500;
-  font-style: italic;
-  margin-bottom: 3px;
-}
-
-.exp-meta {
-  font-size: 12px;
-  color: var(--c-muted);
-  margin-bottom: 8px;
-}
-
-.exp-desc {
-  font-size: 14px;
-  color: var(--c-text);
-  line-height: 1.75;
-}
-
+  .exp-card {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 0 20px;
+    text-align: left;
+  }
+  .exp-date {
+    font-size: 11px;
+    color: var(--c-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding-top: 3px;
+    line-height: 1.4;
+    text-align: right;
+  }
+  .exp-company {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 500;
+    font-style: italic;
+    margin-bottom: 3px;
+  }
+  .exp-meta {
+    font-size: 12px;
+    color: var(--c-muted);
+    margin-bottom: 8px;
+  }
+  .exp-desc {
+    font-size: 14px;
+    color: var(--c-text);
+    line-height: 1.75;
+  }
   /* ── CASE STUDY PAGE ── */
   .cs-back {
     display: inline-flex;
@@ -393,22 +315,19 @@ const css = `
     gap: 6px;
     font-size: 12px;
     color: var(--c-muted);
-    cursor: pointer;
+    cursor: none;
     margin-bottom: 40px;
     transition: color var(--transition);
     background: none;
     border: none;
     padding: 0;
   }
-
   .cs-back:hover { color: var(--c-blue); }
-
   .cs-back svg {
     width: 14px; height: 14px;
     stroke: currentColor; fill: none;
     stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
   }
-
   .cs-eyebrow {
     font-size: 10px;
     letter-spacing: 0.12em;
@@ -416,7 +335,6 @@ const css = `
     color: var(--c-blue);
     margin-bottom: 10px;
   }
-
   .cs-title {
     font-family: var(--font-display);
     font-size: 30px;
@@ -426,7 +344,6 @@ const css = `
     margin-bottom: 12px;
     max-width: 520px;
   }
-
   .cs-intro {
     font-size: 16px;
     color: var(--c-muted);
@@ -434,7 +351,6 @@ const css = `
     max-width: 500px;
     margin-bottom: 32px;
   }
-
   .cs-image {
     width: 100%;
     max-width: 520px;
@@ -447,13 +363,11 @@ const css = `
     margin-bottom: 40px;
     overflow: hidden;
   }
-
   .cs-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-
   .cs-image-placeholder {
     width: 100%;
     height: 100%;
@@ -464,14 +378,12 @@ const css = `
     color: var(--c-muted);
     font-size: 14px;
   }
-
   .cs-meta-row {
     display: flex;
     gap: 32px;
     padding: 18px 0;
     margin-bottom: 40px;
   }
-
   .cs-meta-item { }
   .cs-meta-label {
     font-size: 10px;
@@ -487,11 +399,8 @@ const css = `
     font-weight: 500;
     color: var(--c-text);
   }
-
   .cs-body { max-width: 520px; }
-
   .cs-section { margin-bottom: 36px; }
-
   .cs-section-heading {
     font-size: 11px;
     letter-spacing: 0.1em;
@@ -501,24 +410,20 @@ const css = `
     font-family: var(--font-body);
     font-weight: 500;
   }
-
   .cs-section-text {
     font-size: 16px;
     color: var(--c-text);
     line-height: 1.8;
   }
-
   .cs-section-text + .cs-section-text {
     margin-top: 12px;
   }
-
   .cs-skills {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
     margin-top: 8px;
   }
-
   .cs-skill {
     font-size: 11px;
     padding: 4px 11px;
@@ -527,7 +432,6 @@ const css = `
     color: var(--c-muted);
     background: var(--c-surface);
   }
-
   .cs-callout {
     background: var(--c-surface);
     border-left: 2px solid var(--c-blue);
@@ -539,7 +443,6 @@ const css = `
     font-style: italic;
     margin: 24px 0;
   }
-
   /* ── MOBILE ── */
   @media (max-width: 640px) {
     .layout {
@@ -571,14 +474,7 @@ const PROJECTS = [
     image: "/projects/technovation.png",
     tags: ["UI/UX", "Design Systems", "Leadership"],
     eyebrow: "UI/UX · Design Systems · Figma",
-    // Redirect this card to the live site instead of an internal case study page
     externalUrl: "https://usttechsoc.org",
-    // meta: [
-    //   { label: "Role", value: "UI/UX Director" },
-    //   { label: "Team", value: "9 designers + dev team" },
-    //   { label: "Year", value: "2025–2026" },
-    //   { label: "Output", value: "usttechsoc.org" },
-    // ],
     meta: [],
     intro:
       "When I became UI/UX Director, the organization had no visual identity, no shared design language, and no process for how design decisions got made. Nine designers were working in isolation — every page looked different, and polished Figma files kept breaking in development.",
@@ -619,13 +515,6 @@ const PROJECTS = [
     image: "/projects/airquality.png",
     tags: ["ML", "Data Science", "Research"],
     eyebrow: "ML · Deep Learning · Multimodal",
-    // meta: [
-    //   { label: "Role", value: "ML Engineer & Researcher" },
-    //   { label: "Team", value: "4 researchers (UST College of IT)" },
-    //   { label: "Type", value: "Undergraduate thesis" },
-    //   { label: "Year", value: "2025–2026" },
-    //   { label: "Model", value: "CapsNet + LSTM + LightGBM" },
-    // ],
     meta: [],
     intro:
       "Air quality shapes millions of daily decisions. Most forecasting systems depend entirely on sensor networks, which are expensive to scale. Our thesis started from a different question: what if you could extract meaningful air quality signals from images? Working alongside three researchers at UST, we explored whether a hybrid model combining spatial features from images and temporal environmental data could produce reliable, real-world-useful forecasts.",
@@ -669,15 +558,6 @@ const PROJECTS = [
     image: "/projects/sentiment.png",
     tags: ["ML", "NLP", "Python"],
     eyebrow: "ML · Deep Learning · NLP",
-    // meta: [
-    //   { label: "Role", value: "ML Engineer, Data Scientist, Researcher" },
-    //   { label: "Team", value: "7 researchers" },
-    //   { label: "Type", value: "Final Project" },
-    //   { label: "Year", value: "May 2025" },
-    //   { label: "Dataset", value: "50k IMDb reviews" },
-    //   { label: "Model", value: "DistilBERT" },
-    //   { label: "Accuracy", value: "~87% test" },
-    // ],
     meta: [],
     intro:
       "Sentiment analysis sounds simple: is this review positive or negative? But in any real-world application, the text is messy, ironic, mixed, and context-dependent. Working alongside six teammates, we built something that engaged with that reality directly. Our challenge: fine-tune DistilBERT to handle the nuance and noise inherent in movie reviews.",
@@ -723,12 +603,6 @@ const PROJECTS = [
     image: "/projects/kho.png",
     tags: ["Full-stack", "PM", "React"],
     eyebrow: "Full-Stack · Project Management",
-    // meta: [
-    //   { label: "Role", value: "PM & Full-stack dev" },
-    //   { label: "Team", value: "6 developers" },
-    //   { label: "Stack", value: "React, Node.js, MySQL" },
-    //   { label: "Year", value: "2024–2025" },
-    // ],
     meta: [],
     intro:
       "The clinic's existing process was entirely manual — paper records for patient history, handwritten logs for appointments, no system for tracking overdue vaccinations. The ask was a digital system that wouldn't require clinic staff to learn something complicated. I wore two hats: project manager and full-stack developer.",
@@ -815,7 +689,6 @@ function Sidebar() {
           and a habit of making data make sense and interfaces feel human.
         </p>
       </div>
-
       <div className="sidebar-links">
         <a className="sidebar-link" href="mailto:mallarimicah.work@gmail.com">
           <IconMail /> mallarimicah.work@gmail.com
@@ -847,8 +720,6 @@ function HomePage({
   onSelectProject: (id: string) => void;
 }) {
   const handleCardClick = (p: (typeof PROJECTS)[0]) => {
-    // If the project has an external URL, open it in a new tab instead of
-    // navigating to the internal case study page.
     if ("externalUrl" in p && p.externalUrl) {
       window.open(p.externalUrl, "_blank", "noopener,noreferrer");
     } else {
@@ -867,14 +738,7 @@ function HomePage({
               className="work-card"
               onClick={() => handleCardClick(p)}
             >
-              {/* <div className="work-card-image">
-                {p.image ? (
-                  <img src={p.image} alt={p.title} />
-                ) : (
-                  <div className="work-card-image-placeholder">Image</div>
-                )}
-              </div> */}
-              <div>
+              <div style={{ flex: 1 }}>
                 <p className="work-card-title">{p.title}</p>
                 <p className="work-card-sub">{p.sub}</p>
                 <p
@@ -928,22 +792,14 @@ function CaseStudyPage({
   project: (typeof PROJECTS)[0];
   onBack: () => void;
 }) {
-  // NOTE: The Technovation project (id: "technovation") redirects to the
-  // external site from the card click in HomePage and never reaches this
-  // component. The case study page content for it is intentionally unused.
-  // If you later want to re-enable it, remove `externalUrl` from that project
-  // object in PROJECTS and this component will render it automatically.
-
   return (
     <main className="main">
       <button className="cs-back" onClick={onBack}>
         <IconArrowLeft /> Back
       </button>
-
       <p className="cs-eyebrow">{project.eyebrow}</p>
       <h1 className="cs-title">{project.title}</h1>
       <p className="cs-intro">{project.intro}</p>
-
       <div className="cs-image">
         {project.image ? (
           <img src={project.image} alt={project.title} />
@@ -951,18 +807,6 @@ function CaseStudyPage({
           <div className="cs-image-placeholder">Image Placeholder</div>
         )}
       </div>
-
-      {/* Meta row commented out — data is kept in PROJECTS for reference
-      <div className="cs-meta-row">
-        {project.meta.map((m: (typeof PROJECTS)[0]["meta"][0]) => (
-          <div key={m.label} className="cs-meta-item">
-            <p className="cs-meta-label">{m.label}</p>
-            <p className="cs-meta-value">{m.value}</p>
-          </div>
-        ))}
-      </div>
-      */}
-
       <div className="cs-body">
         {project.sections.map((s: (typeof PROJECTS)[0]["sections"][0]) => (
           <div key={s.heading} className="cs-section">
@@ -970,9 +814,6 @@ function CaseStudyPage({
             <p className="cs-section-text">{s.text}</p>
           </div>
         ))}
-
-        {/* <div className="cs-callout">{project.reflection}</div> */}
-
         <div className="cs-section">
           <p className="cs-section-heading">Stack & Skills</p>
           <div className="cs-skills">
@@ -995,6 +836,83 @@ export default function Portfolio() {
   const project = activeProject
     ? PROJECTS.find((p) => p.id === activeProject)
     : null;
+
+  // ── STAR CURSOR EFFECT ──────────────────────────────────────────
+  useEffect(() => {
+    const colors = ["#f7c948", "#f0a500", "#3A7DC1", "#2c5282"];
+    let lastX = 0,
+      lastY = 0;
+
+    const createStar = (x: number, y: number) => {
+      const ns = "http://www.w3.org/2000/svg";
+      const star = document.createElementNS(ns, "svg") as SVGSVGElement;
+      const size = 10 + Math.random() * 14;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const useFourPoint = Math.random() > 0.5;
+
+      star.setAttribute("width", String(size));
+      star.setAttribute("height", String(size));
+      star.setAttribute("viewBox", "0 0 24 24");
+      star.style.cssText = `position:fixed;pointer-events:none;z-index:9998;
+        transform:translate(-50%,-50%);left:${x}px;top:${y}px;
+        animation:starFade ${0.5 + Math.random() * 0.5}s ease-out forwards;`;
+
+      if (useFourPoint) {
+        const lines: [string, string, string, string][] = [
+          ["12", "4", "12", "20"],
+          ["4", "12", "20", "12"],
+          ["6", "6", "18", "18"],
+          ["18", "6", "6", "18"],
+        ];
+        lines.forEach(([x1, y1, x2, y2], i) => {
+          const l = document.createElementNS(ns, "line");
+          l.setAttribute("x1", x1);
+          l.setAttribute("y1", y1);
+          l.setAttribute("x2", x2);
+          l.setAttribute("y2", y2);
+          l.setAttribute("stroke", color);
+          l.setAttribute("stroke-width", i < 2 ? "2.5" : "1.5");
+          l.setAttribute("stroke-linecap", "round");
+          star.appendChild(l);
+        });
+      } else {
+        const p = document.createElementNS(ns, "polygon");
+        p.setAttribute(
+          "points",
+          "12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26",
+        );
+        p.setAttribute("fill", color);
+        star.appendChild(p);
+      }
+
+      document.body.appendChild(star);
+      setTimeout(() => star.remove(), 900);
+    };
+
+    const onMove = (e: MouseEvent) => {
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist > 6) {
+        createStar(
+          e.clientX + (Math.random() - 0.5) * 12,
+          e.clientY + (Math.random() - 0.5) * 12,
+        );
+        if (dist > 14) {
+          createStar(
+            e.clientX + (Math.random() - 0.5) * 16,
+            e.clientY + (Math.random() - 0.5) * 16,
+          );
+        }
+        lastX = e.clientX;
+        lastY = e.clientY;
+      }
+    };
+
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
+  // ───────────────────────────────────────────────────────────────
 
   return (
     <>
