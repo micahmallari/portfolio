@@ -152,7 +152,7 @@ const css = `
     font-weight: 500;
     color: var(--c-text);
     margin-bottom: 4px;
-    text-decoration: underline wavy var(--c-blue);
+
   text-decoration-thickness: 1.5px;
   text-underline-offset: 5px;
   }
@@ -160,7 +160,7 @@ const css = `
   .sidebar-role {
     font-size: 13px;
     letter-spacing: 0.07em;
-    color: var(--c-muted);
+    color: var(--c-blue);
     text-transform: uppercase;
     margin-bottom: 16px;
     font-family: var(--font-body);
