@@ -557,12 +557,15 @@ const PROJECTS = [
     image: "/projects/technovation.png",
     tags: ["UI/UX", "Design Systems", "Leadership"],
     eyebrow: "UI/UX · Design Systems",
-    meta: [
-      { label: "Role", value: "UI/UX Director" },
-      { label: "Team", value: "9 designers + dev team" },
-      { label: "Year", value: "2025–2026" },
-      { label: "Output", value: "usttechsoc.org" },
-    ],
+    // Redirect this card to the live site instead of an internal case study page
+    externalUrl: "https://usttechsoc.org",
+    // meta: [
+    //   { label: "Role", value: "UI/UX Director" },
+    //   { label: "Team", value: "9 designers + dev team" },
+    //   { label: "Year", value: "2025–2026" },
+    //   { label: "Output", value: "usttechsoc.org" },
+    // ],
+    meta: [],
     intro:
       "When I became UI/UX Director, the organization had no visual identity, no shared design language, and no process for how design decisions got made. Nine designers were working in isolation — every page looked different, and polished Figma files kept breaking in development.",
     sections: [
@@ -598,17 +601,18 @@ const PROJECTS = [
     id: "airquality",
     title:
       "Image-Based Air Quality Forecasting Utilizing an Efficient-CapsNet-LSTM-LightGBM Hybrid Model: Exploiting Temporal and Spatial Features from High-Resolution Images and Environmental Data",
-    sub: "Undergraduate thesis — hybrid deep learning model",
+    sub: "Undergraduate thesis (Hybrid Deep Learning model)",
     image: "/projects/airquality.png",
     tags: ["ML", "Data Science", "Research"],
     eyebrow: "ML · Data Science",
-    meta: [
-      { label: "Role", value: "ML Engineer & Researcher" },
-      { label: "Team", value: "4 researchers (UST College of IT)" },
-      { label: "Type", value: "Undergraduate thesis" },
-      { label: "Year", value: "2025–2026" },
-      { label: "Model", value: "CapsNet + LSTM + LightGBM" },
-    ],
+    // meta: [
+    //   { label: "Role", value: "ML Engineer & Researcher" },
+    //   { label: "Team", value: "4 researchers (UST College of IT)" },
+    //   { label: "Type", value: "Undergraduate thesis" },
+    //   { label: "Year", value: "2025–2026" },
+    //   { label: "Model", value: "CapsNet + LSTM + LightGBM" },
+    // ],
+    meta: [],
     intro:
       "Air quality shapes millions of daily decisions. Most forecasting systems depend entirely on sensor networks, which are expensive to scale. Our thesis started from a different question: what if you could extract meaningful air quality signals from images? Working alongside three researchers at UST, we explored whether a hybrid model combining spatial features from images and temporal environmental data could produce reliable, real-world-useful forecasts.",
     sections: [
@@ -651,15 +655,16 @@ const PROJECTS = [
     image: "/projects/sentiment.png",
     tags: ["ML", "NLP", "Python"],
     eyebrow: "ML · NLP",
-    meta: [
-      { label: "Role", value: "ML Engineer, Data Scientist, Researcher" },
-      { label: "Team", value: "7 researchers" },
-      { label: "Type", value: "Final Project" },
-      { label: "Year", value: "May 2025" },
-      { label: "Dataset", value: "50k IMDb reviews" },
-      { label: "Model", value: "DistilBERT" },
-      { label: "Accuracy", value: "~87% test" },
-    ],
+    // meta: [
+    //   { label: "Role", value: "ML Engineer, Data Scientist, Researcher" },
+    //   { label: "Team", value: "7 researchers" },
+    //   { label: "Type", value: "Final Project" },
+    //   { label: "Year", value: "May 2025" },
+    //   { label: "Dataset", value: "50k IMDb reviews" },
+    //   { label: "Model", value: "DistilBERT" },
+    //   { label: "Accuracy", value: "~87% test" },
+    // ],
+    meta: [],
     intro:
       "Sentiment analysis sounds simple: is this review positive or negative? But in any real-world application, the text is messy, ironic, mixed, and context-dependent. Working alongside six teammates, we built something that engaged with that reality directly. Our challenge: fine-tune DistilBERT to handle the nuance and noise inherent in movie reviews.",
     sections: [
@@ -704,12 +709,13 @@ const PROJECTS = [
     image: "/projects/kho.png",
     tags: ["Full-stack", "PM", "React"],
     eyebrow: "Full-Stack · Project Management",
-    meta: [
-      { label: "Role", value: "PM & Full-stack dev" },
-      { label: "Team", value: "6 developers" },
-      { label: "Stack", value: "React, Node.js, MySQL" },
-      { label: "Year", value: "2024–2025" },
-    ],
+    // meta: [
+    //   { label: "Role", value: "PM & Full-stack dev" },
+    //   { label: "Team", value: "6 developers" },
+    //   { label: "Stack", value: "React, Node.js, MySQL" },
+    //   { label: "Year", value: "2024–2025" },
+    // ],
+    meta: [],
     intro:
       "The clinic's existing process was entirely manual — paper records for patient history, handwritten logs for appointments, no system for tracking overdue vaccinations. The ask was a digital system that wouldn't require clinic staff to learn something complicated. I wore two hats: project manager and full-stack developer.",
     sections: [
@@ -787,10 +793,11 @@ function Sidebar() {
       <p className="sidebar-name">Micah Mallari</p>
       <p className="sidebar-role">Data Science ★ UI/UX</p>
       <p className="sidebar-tagline">
-        I build things that work, and things that look like they work.
+        This is my little slice of the web— the stuff I've built and what I've
+        been up to.
         <br />
-        From University of Santo Tomas with a degree in Computer Science and a
-        habit of making data make sense and interfaces feel human.
+        From the University of Santo Tomas with a degree in Computer Science and
+        a habit of making data make sense and interfaces feel human.
       </p>
 
       <div className="sidebar-links">
@@ -823,6 +830,16 @@ function HomePage({
 }: {
   onSelectProject: (id: string) => void;
 }) {
+  const handleCardClick = (p: (typeof PROJECTS)[0]) => {
+    // If the project has an external URL, open it in a new tab instead of
+    // navigating to the internal case study page.
+    if ("externalUrl" in p && p.externalUrl) {
+      window.open(p.externalUrl, "_blank", "noopener,noreferrer");
+    } else {
+      onSelectProject(p.id);
+    }
+  };
+
   return (
     <main className="main">
       <section className="section">
@@ -832,7 +849,7 @@ function HomePage({
             <button
               key={p.id}
               className="work-card"
-              onClick={() => onSelectProject(p.id)}
+              onClick={() => handleCardClick(p)}
             >
               {/* <div className="work-card-image">
                 {p.image ? (
@@ -875,8 +892,8 @@ function HomePage({
               Software Engineer Intern · Taguig, Philippines
             </p>
             <p className="exp-desc">
-              Built end-to-end Python automation pipelines for IAMOps — user
-              creation, deactivation, reactivation, and queue modification —
+              Built end-to-end Python automation pipelines for IAMOps (user
+              creation, deactivation, reactivation, and queue modification)
               across four production workflows. Worked directly on live systems
               used by the operations team from day one.
             </p>
@@ -895,6 +912,12 @@ function CaseStudyPage({
   project: (typeof PROJECTS)[0];
   onBack: () => void;
 }) {
+  // NOTE: The Technovation project (id: "technovation") redirects to the
+  // external site from the card click in HomePage and never reaches this
+  // component. The case study page content for it is intentionally unused.
+  // If you later want to re-enable it, remove `externalUrl` from that project
+  // object in PROJECTS and this component will render it automatically.
+
   return (
     <main className="main">
       <button className="cs-back" onClick={onBack}>
@@ -913,6 +936,7 @@ function CaseStudyPage({
         )}
       </div>
 
+      {/* Meta row commented out — data is kept in PROJECTS for reference
       <div className="cs-meta-row">
         {project.meta.map((m: (typeof PROJECTS)[0]["meta"][0]) => (
           <div key={m.label} className="cs-meta-item">
@@ -921,6 +945,7 @@ function CaseStudyPage({
           </div>
         ))}
       </div>
+      */}
 
       <div className="cs-body">
         {project.sections.map((s: (typeof PROJECTS)[0]["sections"][0]) => (
