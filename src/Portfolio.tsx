@@ -168,11 +168,25 @@ const css = `
   }
 
   .sidebar-tagline {
-    font-size: 15px;
+    margin-bottom: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sidebar-tagline-heading {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--c-text);
+    line-height: 1.4;
+  }
+
+  .sidebar-tagline-sub {
+    font-size: 14px;
     color: var(--c-muted);
     line-height: 1.6;
-    margin-bottom: 36px;
     font-style: italic;
+    letter-spacing: 0.01em;
   }
 
   .sidebar-links {
@@ -556,7 +570,7 @@ const PROJECTS = [
     sub: "End-to-end UI/UX leadership",
     image: "/projects/technovation.png",
     tags: ["UI/UX", "Design Systems", "Leadership"],
-    eyebrow: "UI/UX · Design Systems",
+    eyebrow: "UI/UX · Design Systems · Figma",
     // Redirect this card to the live site instead of an internal case study page
     externalUrl: "https://usttechsoc.org",
     // meta: [
@@ -601,10 +615,10 @@ const PROJECTS = [
     id: "airquality",
     title:
       "Image-Based Air Quality Forecasting Utilizing an Efficient-CapsNet-LSTM-LightGBM Hybrid Model: Exploiting Temporal and Spatial Features from High-Resolution Images and Environmental Data",
-    sub: "Undergraduate thesis (Hybrid Deep Learning model)",
+    sub: "Undergraduate thesis— hybrid deep learning model",
     image: "/projects/airquality.png",
     tags: ["ML", "Data Science", "Research"],
-    eyebrow: "ML · Data Science",
+    eyebrow: "ML · Deep Learning · Multimodal",
     // meta: [
     //   { label: "Role", value: "ML Engineer & Researcher" },
     //   { label: "Team", value: "4 researchers (UST College of IT)" },
@@ -633,13 +647,13 @@ const PROJECTS = [
         text: "The hybrid architecture demonstrated predictive accuracy across real-world air quality data, validated across multiple metrics and evaluated against the specific error types that matter in this domain. The research was presented at UST and accepted for publication, with all four team members credited equally.",
       },
     ],
-    /*reflection:
+    reflection:
       "The collaborative part was harder than I expected. Aligning on evaluation criteria, reconciling different technical approaches, and making sure every team member's contribution was visible in the final output — those required more negotiation than the modeling did. But the thesis was stronger for the four perspectives. I'd intentionally involve team members in defining research questions earlier, rather than treating it as a solo phase that happens first.",
-    */
     skills: [
       "Python",
       "PyTorch",
       "scikit-learn",
+      "LightGBM",
       "Pandas",
       "NumPy",
       "Matplotlib",
@@ -654,7 +668,7 @@ const PROJECTS = [
     sub: "A Lightweight Fine-Tuning Approach on Internet Movie Database (IMDb) reviews",
     image: "/projects/sentiment.png",
     tags: ["ML", "NLP", "Python"],
-    eyebrow: "ML · NLP",
+    eyebrow: "ML · Deep Learning · NLP",
     // meta: [
     //   { label: "Role", value: "ML Engineer, Data Scientist, Researcher" },
     //   { label: "Team", value: "7 researchers" },
@@ -685,10 +699,8 @@ const PROJECTS = [
         text: "~87% test accuracy with balanced precision (0.87–0.88), recall, and F1-scores across negative and positive reviews. The model demonstrated strong generalization from training to validation to test sets. Importantly, we quantified robustness: adding noise increased errors from 702 to 923 misclassifications, revealing that real-world performance depends heavily on preprocessing quality.",
       },
     ],
-    /*
     reflection:
       "What surprised me was how much the team's division of labor affected the final output quality. By having different people own data preprocessing vs. model training vs. error analysis, we caught edge cases no single person would have noticed. The reverse side: alignment took longer. We spent cycles debating whether certain noisy samples were legitimate or data quality issues. I'd do that upfront next time, before training starts. Also — working on a constrained machine (8GB Macbook) forced us to be ruthless about dataset size and iteration speed. Constraints can be forcing functions for good architecture decisions.",
-    */
     skills: [
       "Python",
       "Hugging Face Transformers",
@@ -738,10 +750,8 @@ const PROJECTS = [
         text: "A working, deployed system that replaced the clinic's paper-based process. The role-based access control went through three design iterations — but the final implementation covered all the permission edge cases that earlier versions missed.",
       },
     ],
-    /*
     reflection:
       "The role-based access rework cost us two sprints that a proper requirements workshop upfront would have saved. The conversations you skip at the start always come back later, and they're more expensive the second time.",
-    */
     skills: [
       "React",
       "Node.js",
@@ -796,12 +806,15 @@ function Sidebar() {
       </div>
       <p className="sidebar-name">Micah Mallari</p>
       <p className="sidebar-role">Data Science ★ UI/UX</p>
-      <p className="sidebar-tagline">
-        This is my space to show what I do and what I've been building.
-        <br />
-        From the University of Santo Tomas with a degree in Computer Science and
-        a habit of making data make sense and interfaces feel human.
-      </p>
+      <div className="sidebar-tagline">
+        <p className="sidebar-tagline-heading">
+          This is my space— to show what I do and what I've been building.
+        </p>
+        <p className="sidebar-tagline-sub">
+          From the University of Santo Tomas with a degree in Computer Science
+          and a habit of making data make sense and interfaces feel human.
+        </p>
+      </div>
 
       <div className="sidebar-links">
         <a className="sidebar-link" href="mailto:mallarimicah.work@gmail.com">
