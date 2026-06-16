@@ -633,13 +633,13 @@ const PROJECTS = [
         text: "The hybrid architecture demonstrated predictive accuracy across real-world air quality data, validated across multiple metrics and evaluated against the specific error types that matter in this domain. The research was presented at UST and accepted for publication, with all four team members credited equally.",
       },
     ],
-    reflection:
+    /*reflection:
       "The collaborative part was harder than I expected. Aligning on evaluation criteria, reconciling different technical approaches, and making sure every team member's contribution was visible in the final output — those required more negotiation than the modeling did. But the thesis was stronger for the four perspectives. I'd intentionally involve team members in defining research questions earlier, rather than treating it as a solo phase that happens first.",
+    */
     skills: [
       "Python",
       "PyTorch",
       "scikit-learn",
-      "LightGBM",
       "Pandas",
       "NumPy",
       "Matplotlib",
@@ -685,8 +685,10 @@ const PROJECTS = [
         text: "~87% test accuracy with balanced precision (0.87–0.88), recall, and F1-scores across negative and positive reviews. The model demonstrated strong generalization from training to validation to test sets. Importantly, we quantified robustness: adding noise increased errors from 702 to 923 misclassifications, revealing that real-world performance depends heavily on preprocessing quality.",
       },
     ],
+    /*
     reflection:
       "What surprised me was how much the team's division of labor affected the final output quality. By having different people own data preprocessing vs. model training vs. error analysis, we caught edge cases no single person would have noticed. The reverse side: alignment took longer. We spent cycles debating whether certain noisy samples were legitimate or data quality issues. I'd do that upfront next time, before training starts. Also — working on a constrained machine (8GB Macbook) forced us to be ruthless about dataset size and iteration speed. Constraints can be forcing functions for good architecture decisions.",
+    */
     skills: [
       "Python",
       "Hugging Face Transformers",
@@ -736,8 +738,10 @@ const PROJECTS = [
         text: "A working, deployed system that replaced the clinic's paper-based process. The role-based access control went through three design iterations — but the final implementation covered all the permission edge cases that earlier versions missed.",
       },
     ],
+    /*
     reflection:
       "The role-based access rework cost us two sprints that a proper requirements workshop upfront would have saved. The conversations you skip at the start always come back later, and they're more expensive the second time.",
+    */
     skills: [
       "React",
       "Node.js",
@@ -793,8 +797,7 @@ function Sidebar() {
       <p className="sidebar-name">Micah Mallari</p>
       <p className="sidebar-role">Data Science ★ UI/UX</p>
       <p className="sidebar-tagline">
-        This is my little slice of the web— the stuff I've built and what I've
-        been up to.
+        This is my space to show what I do and what I've been building.
         <br />
         From the University of Santo Tomas with a degree in Computer Science and
         a habit of making data make sense and interfaces feel human.
@@ -955,7 +958,7 @@ function CaseStudyPage({
           </div>
         ))}
 
-        <div className="cs-callout">{project.reflection}</div>
+        {/* <div className="cs-callout">{project.reflection}</div> */}
 
         <div className="cs-section">
           <p className="cs-section-heading">Stack & Skills</p>
